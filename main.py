@@ -3,9 +3,10 @@ import face_recognition
 import cv2
 import numpy as np
 
-from utils import find_images
-from utils import save_frame
-from console_utils import cls
+from utils.app_utils import find_images
+from utils.app_utils import save_frame
+from utils.app_utils import create_dir
+from utils.console_utils import cls
 
 # Constants for app
 camera_port = 0
@@ -25,7 +26,7 @@ def find_faces():
 
     for file in files:
         images.append(face_recognition.load_image_file(path + '\\' + file))
-        known_face_names.append(file.__str__())
+        known_face_names.append(file.__str__().replace(".jpg", ""))
 
     for image, image_number in zip(images, range(len(images))):
         try:
@@ -102,6 +103,9 @@ def find_faces():
 
 
 def main():
+    # Creating dir if not exist
+    create_dir(path)
+
     while True:
         res = int(input("1 - start face searching\n"
                         "2 - add new face to database\n"))
